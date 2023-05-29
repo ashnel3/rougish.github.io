@@ -1,0 +1,15 @@
+* text=auto
+
+*.md     text
+*.txt    text
+
+*.sh     text eol=lf
+
+*.json   text
+*.yaml   text
+*.yml    text
+
+*.ts     text
+*.js     text
+*.cjs    text
+*.mjs    text

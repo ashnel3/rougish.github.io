@@ -1,2 +1,2 @@
 # rougish.github.io
-Simple tile based rouglike
+Simple tile based rouge-like
