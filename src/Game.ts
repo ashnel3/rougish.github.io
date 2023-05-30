@@ -43,7 +43,7 @@ export class Game {
     const col = Math.floor(ev.y / this.cellSize)
     const row = Math.floor(ev.x / this.cellSize)
     this.cellSelect?.next(this)
-    if (col < this.screenWidth && row < this.screenHeight) {
+    if (col < this.screenHeight && row < this.screenWidth) {
       this.cellSelect = this.level.get(row, col)
       this.cellSelect?.hover(this.ctx, this.cellSize)
     } else {
