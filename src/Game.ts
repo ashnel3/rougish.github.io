@@ -56,11 +56,11 @@ export class Game {
   }
 
   _resize(ev?: UIEvent): void {
-    this.canvas.width = innerWidth
-    this.canvas.height = innerHeight
     this.cellSize = this.ctx.measureText('A').width * 4.03
-    this.screenWidth = Math.floor(this.canvas.width / this.cellSize)
-    this.screenHeight = Math.floor(this.canvas.height / this.cellSize)
+    this.screenWidth = Math.floor(innerWidth / this.cellSize)
+    this.screenHeight = Math.floor(innerHeight / this.cellSize)
+    this.canvas.width = innerWidth - (innerWidth % this.cellSize)
+    this.canvas.height = innerHeight - (innerHeight % this.cellSize)
     this.next()
   }
 
