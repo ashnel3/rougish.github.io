@@ -39,10 +39,8 @@ export class Game {
     window.addEventListener('keydown', this._keydown.bind(this))
   }
 
-  _contextmenu(ev: MouseEvent): boolean {
+  _contextmenu(ev: MouseEvent): void {
     ev.preventDefault()
-    this.cellSelect?.click(ev.button)
-    return false
   }
 
   _mousedown(ev: MouseEvent): void {

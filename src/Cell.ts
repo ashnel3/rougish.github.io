@@ -86,7 +86,7 @@ export class Cell {
       case 0:
         break
       case 2:
-        this.game.logger.send(`[${this.name}]: ${this.description}, ${this.row} x ${this.col}`)
+        this.game.logger.send(`[${this.name}]: ${this.description}. (${this.row} x ${this.col})`)
         break
       default:
     }

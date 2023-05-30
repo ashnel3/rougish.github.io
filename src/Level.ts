@@ -1,6 +1,7 @@
 import { Cell } from './Cell'
 
 import type { Actor } from './Actor'
+import type { Entity } from './Entity'
 import type { Game } from './Game'
 
 export class Level {
@@ -9,7 +10,7 @@ export class Level {
   readonly cols: number
 
   map: Cell[][]
-  entities: []
+  entities: Entity[]
   actors: Actor[]
 
   constructor(game: Game, rows: number, cols: number) {
@@ -50,13 +51,16 @@ export class Level {
   }
 
   create(): this {
-    this.map = new Array(this.cols)
-      .fill(undefined)
-      .map((v, c) =>
-        new Array(this.rows)
-          .fill(undefined)
-          .map((_v, r) => new Cell(this.game, '.', 'StoneFloor', 'An ancient stone brick floor', r, c, { bg1: '#303030', bg2: '#404040', border: '#777' })),
-      )
+    this.map = new Array(this.cols).fill(undefined).map((v, c) =>
+      new Array(this.rows).fill(undefined).map(
+        (_v, r) =>
+          new Cell(this.game, '.', 'StoneFloor', 'An ancient stone brick floor', r, c, {
+            bg1: '#303030',
+            bg2: '#404040',
+            border: '#777',
+          }),
+      ),
+    )
     return this
   }
 }

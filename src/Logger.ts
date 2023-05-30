@@ -18,7 +18,7 @@ export class Logger {
     if (this.messages.length > 0) {
       this.timeout = window.setTimeout(() => {
         this.remove()
-      }, this.interval)
+      }, this.interval * 0.5)
     } else {
       this._el.style.display = 'none'
     }
