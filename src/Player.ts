@@ -3,11 +3,8 @@ import { Actor } from './Actor'
 import type { Game } from './Game'
 
 export class Player extends Actor {
-  readonly game: Game
-
   constructor(game: Game, row: number = 0, col: number = 0) {
-    super('P', 'You!', 'The mysterious hero.', 10, 1, row, col, { bg1: '#00f', bg2: '#44f', border: '#fff' })
-    this.game = game
+    super(game, 'P', 'You', 'The mysterious hero', 10, 1, row, col, { bg1: '#00f', bg2: '#44f', border: '#fff' })
   }
 
   keydown(key: string): void {
@@ -34,11 +31,7 @@ export class Player extends Actor {
         break
       default:
     }
-    last?.next(this.game)
-    this.next(this.game)
-  }
-
-  click(button: number): void {
-    console.log(`Clicked player! ${this.row} x ${this.col}`)
+    last?.next()
+    this.next()
   }
 }

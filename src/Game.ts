@@ -2,10 +2,12 @@ import { Level } from './Level'
 import { Player } from './Player'
 
 import type { Cell } from './Cell'
+import type { Logger } from './Logger'
 
 export class Game {
   readonly canvas: HTMLCanvasElement
   readonly ctx: CanvasRenderingContext2D
+  readonly logger: Logger
   readonly level: Level
   readonly player: Player
 
@@ -17,7 +19,7 @@ export class Game {
   screenWidth = 0
   screenHeight = 0
 
-  constructor(canvas: HTMLCanvasElement | null) {
+  constructor(canvas: HTMLCanvasElement | null, logger: Logger) {
     const ctx = canvas?.getContext('2d') ?? null
     if (canvas === null || ctx === null) {
       throw new Error('Failed to create rendering context!')
@@ -26,6 +28,7 @@ export class Game {
     this.ctx = ctx
     this.player = new Player(this, 0, 0)
     this.level = new Level(this, 128, 128).create()
+    this.logger = logger
 
     // Handle events
     this._resize()
@@ -42,7 +45,7 @@ export class Game {
   _mousemove(ev: MouseEvent): void {
     const col = Math.floor(ev.y / this.cellSize)
     const row = Math.floor(ev.x / this.cellSize)
-    this.cellSelect?.next(this)
+    this.cellSelect?.next()
     if (col < this.screenHeight && row < this.screenWidth) {
       this.cellSelect = this.level.get(row, col)
       this.cellSelect?.hover(this.ctx, this.cellSize)
@@ -77,7 +80,7 @@ export class Game {
     this.ctx.fillStyle = '#fff'
     this.level.forEach(
       (cell) => {
-        cell.next(this)
+        cell.next()
       },
       this.screenWidth,
       this.screenHeight,
@@ -89,6 +92,7 @@ export class Game {
 
   /** Start new game */
   start(): void {
+    this.logger.send('Started new game!')
     this.next()
   }
 }

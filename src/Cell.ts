@@ -12,6 +12,7 @@ export interface CellPalette {
 }
 
 export class Cell {
+  readonly game: Game
   readonly label: string
   readonly name: string
   readonly description: string
@@ -22,6 +23,7 @@ export class Cell {
   row: number
 
   constructor(
+    game: Game,
     label: string,
     name: string,
     description: string,
@@ -30,6 +32,7 @@ export class Cell {
     palette: Partial<CellPalette> = {},
     flags: Partial<CellFlags> = {},
   ) {
+    this.game = game
     this.label = label
     this.name = name
     this.description = description
@@ -41,14 +44,14 @@ export class Cell {
 
   /** Clear cell */
   _clear(ctx: CanvasRenderingContext2D, cellSize: number): void {
-    ctx.clearRect(cellSize * this.row, cellSize * this.col, cellSize, cellSize)
+    ctx.clearRect(cellSize * this.row + 1, cellSize * this.col + 1, cellSize - 2, cellSize - 2)
   }
 
   /** Draw cell background */
   _next_bg(ctx: CanvasRenderingContext2D, cellSize: number, color?: string): void {
     if (typeof color === 'string') {
       ctx.fillStyle = color
-      ctx.fillRect(cellSize * this.row, cellSize * this.col, cellSize, cellSize)
+      ctx.fillRect(cellSize * this.row + 1, cellSize * this.col + 1, cellSize - 2, cellSize - 2)
     } else {
       this._clear(ctx, cellSize)
     }
@@ -79,7 +82,7 @@ export class Cell {
    * @param button - Mouse button
    */
   click(button: number): void {
-    console.log(`Clicked cell: ${this.row} x ${this.col}`)
+    this.game.logger.send(`[${this.name}]: ${this.description}, ${this.row} x ${this.col}`)
   }
 
   /**
@@ -95,11 +98,11 @@ export class Cell {
 
   /**
    * Draw cell
-   * @param game - Game instance
    */
-  next(game: Game): void {
-    this._next_bg(game.ctx, game.cellSize, this.palette.bg1)
-    this._next_border(game.ctx, game.cellSize)
-    this._next_label(game.ctx, game.cellSize)
+  next(): void {
+    const { ctx, cellSize } = this.game
+    this._next_bg(ctx, cellSize, this.palette.bg1)
+    this._next_border(ctx, cellSize)
+    this._next_label(ctx, cellSize)
   }
 }

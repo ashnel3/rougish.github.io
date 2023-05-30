@@ -1,4 +1,5 @@
 import { Cell, type CellPalette } from './Cell'
+import type { Game } from './Game'
 
 export class Actor extends Cell {
   health: number
@@ -7,6 +8,7 @@ export class Actor extends Cell {
   frozen = false
 
   constructor(
+    game: Game,
     label: string,
     name: string,
     description: string,
@@ -16,7 +18,7 @@ export class Actor extends Cell {
     col: number,
     palette: Partial<CellPalette> = {},
   ) {
-    super(label, name, description, row, col, palette, { walkable: false })
+    super(game, label, name, description, row, col, palette, { walkable: false })
     this.health = healthMax
     this.healthMax = healthMax
     this.lv = lv

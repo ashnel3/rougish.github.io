@@ -10,3 +10,26 @@
   color: #fff;
   background: #000;
 }
+
+.app-log {
+  position: absolute;
+  width: 30%;
+  min-width: 320px;
+  right: 0;
+  top: 0;
+  margin: 0.5em;
+  backdrop-filter: blur(1px) brightness(60%);
+  border-radius: 12px;
+  user-select: none;
+  pointer-events: none;
+}
+
+#log {
+  font-size: 0.66em;
+  padding: 0 1em;
+  list-style: none;
+}
+
+#log > li {
+  margin-bottom: 0.5em;
+}

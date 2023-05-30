@@ -4,6 +4,7 @@ import type { Actor } from './Actor'
 import type { Game } from './Game'
 
 export class Level {
+  readonly game: Game
   readonly rows: number
   readonly cols: number
 
@@ -12,6 +13,7 @@ export class Level {
   actors: Actor[]
 
   constructor(game: Game, rows: number, cols: number) {
+    this.game = game
     this.rows = rows
     this.cols = cols
     this.actors = [game.player]
@@ -53,7 +55,7 @@ export class Level {
       .map((v, c) =>
         new Array(this.rows)
           .fill(undefined)
-          .map((_v, r) => new Cell('.', 'Stone wall', '', r, c, { bg1: '#303030', bg2: '#404040', border: '#777' })),
+          .map((_v, r) => new Cell(this.game, '.', 'StoneFloor', 'An ancient stone brick floor', r, c, { bg1: '#303030', bg2: '#404040', border: '#777' })),
       )
     return this
   }
