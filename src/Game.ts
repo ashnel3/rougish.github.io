@@ -33,9 +33,16 @@ export class Game {
     // Handle events
     this._resize()
     this.canvas.addEventListener('mousedown', this._mousedown.bind(this))
+    this.canvas.addEventListener('contextmenu', this._contextmenu.bind(this))
     window.addEventListener('resize', this._resize.bind(this))
     window.addEventListener('mousemove', this._mousemove.bind(this))
     window.addEventListener('keydown', this._keydown.bind(this))
+  }
+
+  _contextmenu(ev: MouseEvent): boolean {
+    ev.preventDefault()
+    this.cellSelect?.click(ev.button)
+    return false
   }
 
   _mousedown(ev: MouseEvent): void {

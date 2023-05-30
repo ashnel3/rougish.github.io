@@ -82,7 +82,14 @@ export class Cell {
    * @param button - Mouse button
    */
   click(button: number): void {
-    this.game.logger.send(`[${this.name}]: ${this.description}, ${this.row} x ${this.col}`)
+    switch (button) {
+      case 0:
+        break
+      case 2:
+        this.game.logger.send(`[${this.name}]: ${this.description}, ${this.row} x ${this.col}`)
+        break
+      default:
+    }
   }
 
   /**
