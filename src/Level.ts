@@ -1,25 +1,30 @@
 import { Cell } from './Cell'
 
 import type { Actor } from './Actor'
-import type { Player } from './Player'
+import type { Game } from './Game'
 
 export class Level {
   readonly rows: number
   readonly cols: number
+
   map: Cell[][]
   entities: []
   actors: Actor[]
 
-  constructor(player: Player, rows: number, cols: number) {
+  constructor(game: Game, rows: number, cols: number) {
     this.rows = rows
     this.cols = cols
-    this.actors = [player]
+    this.actors = [game.player]
     this.entities = []
     this.map = []
   }
 
   get(row: number, col: number): Cell | undefined {
-    return this.actors.find((a) => a.row === row && a.col === col) ?? this.map?.[row]?.[col]
+    return this.actors.find((a) => a.row === row && a.col === col) ?? this.map?.[col]?.[row]
+  }
+
+  getTile(col: number, row: number): Cell | undefined {
+    return this.map?.[col]?.[row]
   }
 
   forEach(
@@ -31,9 +36,11 @@ export class Level {
   ): this {
     for (let r = offsetRow; r < Math.min(rMax, this.rows); r++) {
       for (let c = offsetCol; c < Math.min(cMax, this.cols); c++) {
-        cb(this.map[r][c], r, c)
+        cb(this.map[c][r], r, c)
       }
     }
+
+    // TODO: skip redrawing actor / entity over tile
     for (const a of this.actors) {
       cb(a, a.row, a.col)
     }

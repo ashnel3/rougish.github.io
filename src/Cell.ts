@@ -18,8 +18,8 @@ export class Cell {
 
   flags: Partial<CellFlags>
   palette: Partial<CellPalette>
-  row: number
   col: number
+  row: number
 
   constructor(
     label: string,

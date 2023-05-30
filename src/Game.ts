@@ -9,13 +9,13 @@ export class Game {
   readonly level: Level
   readonly player: Player
 
+  cellSize = -1
+  cellSelect: Cell | undefined
+  fontSize = 12
   offsetRow = 0
   offsetCol = 0
   screenWidth = 0
   screenHeight = 0
-  fontSize = 12
-  cellSize = -1
-  cellSelect: Cell | undefined
 
   constructor(canvas: HTMLCanvasElement | null) {
     const ctx = canvas?.getContext('2d') ?? null
@@ -24,14 +24,15 @@ export class Game {
     }
     this.canvas = canvas
     this.ctx = ctx
-    this.player = new Player(0, 0)
-    this.level = new Level(this.player, 128, 128).create()
+    this.player = new Player(this, 0, 0)
+    this.level = new Level(this, 128, 128).create()
 
     // Handle events
     this._resize()
-    window.addEventListener('resize', this._resize.bind(this))
     this.canvas.addEventListener('mousedown', this._mousedown.bind(this))
+    window.addEventListener('resize', this._resize.bind(this))
     window.addEventListener('mousemove', this._mousemove.bind(this))
+    window.addEventListener('keydown', this._keydown.bind(this))
   }
 
   _mousedown(ev: MouseEvent): void {
@@ -39,8 +40,8 @@ export class Game {
   }
 
   _mousemove(ev: MouseEvent): void {
-    const col = Math.floor(ev.x / this.cellSize)
-    const row = Math.floor(ev.y / this.cellSize)
+    const col = Math.floor(ev.y / this.cellSize)
+    const row = Math.floor(ev.x / this.cellSize)
     this.cellSelect?.next(this)
     if (col < this.screenWidth && row < this.screenHeight) {
       this.cellSelect = this.level.get(row, col)
@@ -48,6 +49,10 @@ export class Game {
     } else {
       this.cellSelect = undefined
     }
+  }
+
+  _keydown(ev: KeyboardEvent): void {
+    this.player.keydown(ev.key)
   }
 
   _resize(ev?: UIEvent): void {
@@ -61,9 +66,10 @@ export class Game {
 
   /** Destroy game */
   destroy(): void {
-    window.removeEventListener('resize', this._resize)
     this.canvas.removeEventListener('mousedown', this._mousedown)
+    window.removeEventListener('resize', this._resize)
     window.removeEventListener('mousemove', this._mousemove)
+    window.removeEventListener('keydown', this._keydown)
   }
 
   next(): void {
@@ -73,8 +79,8 @@ export class Game {
       (cell) => {
         cell.next(this)
       },
-      this.screenHeight,
       this.screenWidth,
+      this.screenHeight,
       this.offsetRow,
       this.offsetCol,
     )
